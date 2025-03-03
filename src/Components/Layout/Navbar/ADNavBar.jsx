@@ -27,18 +27,12 @@ const navItems = [
         icon: Clock,
         path: '/ad/attendence-history'
     },
-    { 
-        id: 'leave-requests', 
-        label: 'Leave Requests',
-        icon: ClipboardSignature, 
-        path: '/ad/view-records'
-    },
-    { 
-        id: 'profile', 
-        label: 'Profile', 
-        icon: UserCircle, 
-        path: "/ad/profile" 
-    }
+    // { 
+    //     id: 'profile', 
+    //     label: 'Profile', 
+    //     icon: UserCircle, 
+    //     path: "/ad/profile" 
+    // }
 ];
 
 const ADNavBar = () => {

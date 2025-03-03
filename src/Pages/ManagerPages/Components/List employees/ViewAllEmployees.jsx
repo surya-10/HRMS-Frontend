@@ -5,7 +5,8 @@ const ViewAllEmployees = () => {
     const [users, setUsers] = useState([]);
     const [searchValue, setSearchValue] = useState("");
     useEffect(() => {
-        const data = localStorage.getItem("selectedEmployees");
+        const data = localStorage.getItem("employees");
+        console.log(JSON.parse(data))
         if (data) {
             setUsers(JSON.parse(data))
         }

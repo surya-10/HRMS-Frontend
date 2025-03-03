@@ -39,6 +39,7 @@ const ADDashboard = () => {
   const userId = localStorage.getItem("userId");
   const token = localStorage.getItem("token");
   const userName = JSON.parse(localStorage.getItem("user")).username;
+  const [AllEmployees, setAllEmployees] = useState([]);
 
   const fetchManagersAndEmployees = async () => {
     try {
@@ -51,6 +52,16 @@ const ADDashboard = () => {
           },
         }
       );
+      console.log(response);
+      const getRandomColorPair = () => colorPairs[Math.floor(Math.random() * colorPairs.length)];
+      const empData = response.data.data.flatMap((emp) =>
+        emp.team_members.map((member) => ({
+            ...member,   // Keep existing properties
+            colorPairs: getRandomColorPair(), // Assign a random color pair
+        }))
+    );
+      console.log(empData);
+      localStorage.setItem("employees", JSON.stringify(empData))
 
       // Filter only managers from the response
       const allData = response.data.data;
@@ -672,11 +683,11 @@ const ADDashboard = () => {
                                           } - {leave.leave_date[0]?.end_date}
                                         </>
                                       ) : (
-                                        `${moment(leave.leave_date[0].start_date).format(
-                                          "DD MMM"
-                                        )} - ${moment(leave.leave_date[0].end_date).format(
-                                          "DD MMM"
-                                        )}`
+                                        `${moment(
+                                          leave.leave_date[0].start_date
+                                        ).format("DD MMM")} - ${moment(
+                                          leave.leave_date[0].end_date
+                                        ).format("DD MMM")}`
                                       )}
                                     </div>
                                     {leave.reason && (
