@@ -16,6 +16,7 @@ import CircleChart from './managerDashboard/TotalEmployees';
 import axios from 'axios';
 import LeaveDetailsForm from './Components/All leave records/ViewLeaveForm';
 import ChatBot from '../../Components/chatbot';
+import TodayBreaks from './Components/TodayBreaks';
 
 export const colorPairs = [
     { color: "#AB47BC", bgColor: "#FFDBEC" },
@@ -314,10 +315,10 @@ const ManagerDashboard = () => {
                     <div className='h-[300px] top-[50%] fixed right-2 bottom-[80px] z-[1000]'>
                         <ChatBot />
                     </div>
-                    <div className='  '>
-                        <div className=' flex  flex-col lg:flex-row flex-wrap grow w-full'>
+                    <div className=''>
+                        <div className='flex flex-col lg:flex-row flex-wrap grow w-full'>
                             {/* Pending Leave Request Section */}
-                            <div className="w-full lg:w-1/2 p-2 rounded-lg shadow-xl  flex-grow mb-4">
+                            <div className="w-full lg:w-1/2 p-2 rounded-lg shadow-xl flex-grow mb-4">
                                 <div className="border-b border-black flex justify-between items-center p-4">
                                     <span className="font-[500]">Pending Leave Request</span>
                                     <div className="flex gap-2">
@@ -521,116 +522,121 @@ const ManagerDashboard = () => {
                             </div>
                         </div>
 
+                        {/* Add Today's Breaks Section */}
+                        <div className="mb-8 px-2">
+                            <TodayBreaks />
+                        </div>
 
-                    </div>
-                    <div className='w-[full] h-auto flex flex-row gap-4 p-4'>
+                        <div className='w-[full] h-auto flex flex-row gap-4 p-4'>
 
-                        <div className=' p-2 rounded-lg shadow-lg w-1/2'>
-                            <div className="border-b-2 border-red-100 flex justify-between items-center pt-1 pb-1">
-                                <span className="font-[500] ">Team Members</span>
-                                <button className="p-2 bg-[#EFF1F4] rounded-lg hover:bg-blue-200 text-sm hover:text-blue-700"
-                                    onClick={() => navigate("/manager/employees")}>
-                                    View All
-                                </button>
-                            </div>
-                            {employeesError ? (
-                                <div className="flex justify-center items-center h-[100px] text-red-500 bg-red-50 m-4 rounded-lg">
-                                    {employeesError}
+                            <div className=' p-2 rounded-lg shadow-lg w-1/2'>
+                                <div className="border-b-2 border-red-100 flex justify-between items-center pt-1 pb-1">
+                                    <span className="font-[500] ">Team Members</span>
+                                    <button className="p-2 bg-[#EFF1F4] rounded-lg hover:bg-blue-200 text-sm hover:text-blue-700"
+                                        onClick={() => navigate("/manager/employees")}>
+                                        View All
+                                    </button>
                                 </div>
-                            ) : employees.length > 0 ? (
-                                employees.map((user, index) => (
-                                    <div className='flex flex-col '>
-                                        <div key={index} className="flex flex-row gap-6 p-2 items-center cursor-pointer" onClick={() => navigate(`/manager/view-employee/${user._id}`)}>
-                                            <img src="https://res.cloudinary.com/da6xossg7/image/upload/v1735627700/user1_k9cfrj.jpg" alt="{user.userName}" className="bg-red-300 h-[40px] w-[40px] rounded-full" />
+                                {employeesError ? (
+                                    <div className="flex justify-center items-center h-[100px] text-red-500 bg-red-50 m-4 rounded-lg">
+                                        {employeesError}
+                                    </div>
+                                ) : employees.length > 0 ? (
+                                    employees.map((user, index) => (
+                                        <div className='flex flex-col '>
+                                            <div key={index} className="flex flex-row gap-6 p-2 items-center cursor-pointer" onClick={() => navigate(`/manager/view-employee/${user._id}`)}>
+                                                <img src="https://res.cloudinary.com/da6xossg7/image/upload/v1735627700/user1_k9cfrj.jpg" alt="{user.userName}" className="bg-red-300 h-[40px] w-[40px] rounded-full" />
 
-                                            <div className="flex flex-col justify-center items-start">
-                                                <p className='text-black text-[15px]'
-                                                >{user.first_name} {user.last_name}</p>
-                                                <p className='text-[gray] text-[10px] rounded px-2 py-1'
-                                                    style={{
-                                                        background: bgColors[index % bgColors.length],
-                                                        color: colors[index % colors.length]
-                                                    }}>{user.profession_id.designation}</p>
-                                            </div>
-                                            <div className="flex flex-row gap-3 items-center justify-end flex-1">
-                                                <IoIosMail size={17} color="black" />
-                                                <BiMessageRoundedDots size={17} color="black" />
+                                                <div className="flex flex-col justify-center items-start">
+                                                    <p className='text-black text-[15px]'
+                                                    >{user.first_name} {user.last_name}</p>
+                                                    <p className='text-[gray] text-[10px] rounded px-2 py-1'
+                                                        style={{
+                                                            background: bgColors[index % bgColors.length],
+                                                            color: colors[index % colors.length]
+                                                        }}>{user.profession_id.designation}</p>
+                                                </div>
+                                                <div className="flex flex-row gap-3 items-center justify-end flex-1">
+                                                    <IoIosMail size={17} color="black" />
+                                                    <BiMessageRoundedDots size={17} color="black" />
+                                                </div>
                                             </div>
                                         </div>
+                                    ))
+                                ) : (
+                                    <div className={`flex justify-center items-center ${employees.length === 0 ? "h-[100px]" : "h-[200px]"} text-gray-500`}>
+                                        No employees found
                                     </div>
-                                ))
-                            ) : (
-                                <div className={`flex justify-center items-center ${employees.length === 0 ? "h-[100px]" : "h-[200px]"} text-gray-500`}>
-                                    No employees found
-                                </div>
-                            )}
+                                )}
+                            </div>
+                            <div className='w-1/2 shadow-lg p-3'>
+                                <p className='mt-5 font-[500]'>Team Distribution</p>
+                                {roleBasedCount.length > 0 ?
+                                    <div>
+
+                                        <CircleChart data={roleBasedCount} />
+                                    </div>
+                                    :
+                                    <div className="flex justify-center items-center h-[200px] text-gray-500 bg-gray-50 m-4 rounded-lg">
+                                        <div className="text-center">
+                                            <p className="font-medium">No teams members found</p>
+                                            {/* <p className="text-sm mt-1">All permission requests have been processed</p> */}
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+
                         </div>
-                        <div className='w-1/2 shadow-lg p-3'>
-                            <p className='mt-5 font-[500]'>Team Distribution</p>
-                            {roleBasedCount.length > 0 ?
-                                <div>
 
-                                    <CircleChart data={roleBasedCount} />
-                                </div>
-                                :
-                                <div className="flex justify-center items-center h-[200px] text-gray-500 bg-gray-50 m-4 rounded-lg">
-                                    <div className="text-center">
-                                        <p className="font-medium">No teams members found</p>
-                                        {/* <p className="text-sm mt-1">All permission requests have been processed</p> */}
-                                    </div>
-                                </div>
-                            }
-                        </div>
+                        <div className=' p-2 flex flex-wrap flex-row justify-between'>
+                            <div className='w-1/2'>
+                                <AttendancePieChart />
+                            </div>
+                            <div className=' w-1/2 shadow-lg rounded  mt-4 p-4'>
+                                <p className="font-[500] text-lg">Profile</p>
+                                <div className='mt-4'>
 
-                    </div>
-
-                    <div className=' p-2 flex flex-wrap flex-row justify-between'>
-                        <div className='w-1/2'>
-                            <AttendancePieChart />
-                        </div>
-                        <div className=' w-1/2 shadow-lg rounded  mt-4 p-4'>
-                            <p className="font-[500] text-lg">Profile</p>
-                            <div className='mt-4'>
-
-                                <div className='bg-[#daaeb5] rounded-t-lg w-full h-[100px] flex flex-row items-center p-4 gap-5'>
-                                    <img src="https://res.cloudinary.com/da6xossg7/image/upload/v1735627700/user1_k9cfrj.jpg" alt="img" className='bg-red-300 h-[70px] w-[70px] rounded-full' />
-                                    <div className='flex flex-col text-white gap-2'>
-                                        <p>
-                                            {logggedInUser.username}
-                                        </p>
-                                        <p className='text-sm text-red-700'>
-                                            {logggedInUser.role.role_value}
-                                        </p>
+                                    <div className='bg-[#daaeb5] rounded-t-lg w-full h-[100px] flex flex-row items-center p-4 gap-5'>
+                                        <img src="https://res.cloudinary.com/da6xossg7/image/upload/v1735627700/user1_k9cfrj.jpg" alt="img" className='bg-red-300 h-[70px] w-[70px] rounded-full' />
+                                        <div className='flex flex-col text-white gap-2'>
+                                            <p>
+                                                {logggedInUser.username}
+                                            </p>
+                                            <p className='text-sm text-red-700'>
+                                                {logggedInUser.role.role_value}
+                                            </p>
+                                        </div>
                                     </div>
-                                </div>
-                                <div className='mt-4 ps-4'>
-                                    <div className='flex flex-col text-white'>
-                                        <span className='text-[gray] text-[14px]'>
-                                            Phone Number
-                                        </span>
-                                        <span className='text-black '>
-                                            {logggedInUser.phone}
-                                        </span>
-                                    </div>
-                                    <div className='flex flex-col text-white gap-2 mt-4'>
-                                        <span className='text-[gray] text-[14px]'>
-                                            Email Address
-                                        </span>
-                                        <span className='text-black'>
-                                            {logggedInUser.email}
-                                        </span>
-                                    </div>
-                                    <div className='flex flex-col text-white gap-2 mt-4'>
-                                        <span className='text-[gray] text-[14px]'>
-                                            Joined on
-                                        </span>
-                                        <span className='text-black'>
-                                            {logggedInUser.profile.joining_date}
-                                        </span>
+                                    <div className='mt-4 ps-4'>
+                                        <div className='flex flex-col text-white'>
+                                            <span className='text-[gray] text-[14px]'>
+                                                Phone Number
+                                            </span>
+                                            <span className='text-black '>
+                                                {logggedInUser.phone}
+                                            </span>
+                                        </div>
+                                        <div className='flex flex-col text-white gap-2 mt-4'>
+                                            <span className='text-[gray] text-[14px]'>
+                                                Email Address
+                                            </span>
+                                            <span className='text-black'>
+                                                {logggedInUser.email}
+                                            </span>
+                                        </div>
+                                        <div className='flex flex-col text-white gap-2 mt-4'>
+                                            <span className='text-[gray] text-[14px]'>
+                                                Joined on
+                                            </span>
+                                            <span className='text-black'>
+                                                {logggedInUser.profile.joining_date}
+                                            </span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
+
                     </div>
 
                 </div>
